@@ -11,84 +11,25 @@
         .track-title { margin: 0 0 10px 0; font-size: 15px; font-weight: 600; }
         audio { width: 100%; }
         .error { color: #cf222e; background: #ffebe9; padding: 12px; border-radius: 6px; border: 1px solid #ffc1c0; }
+
+        #visualizer {
+            width: 100%;
+            height: 300px;
+            display: block;
+            background: #000;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
     </style>
+    <script src="visualizer.js" defer></script>
+    
 </head>
 <body>
-
+    <canvas id="visualizer"></canvas>
     <h2>Audio Playlist</h2>
     <div id="audio-container">Loading tracks from repository...</div>
-
-    <script>
-        // --- CONFIGURATION ---
-        const USERNAME = 'prattbj';   // e.g., 'john-doe'
-        const REPO = 'Portfolio';             // e.g., 'my-music-site'
-        const FOLDER_PATH = 'Music/Files';               // The folder where your music is stored (leave empty '' if in root)
-        const BRANCH = 'main';                     // Usually 'main' or 'master'
-        // ---------------------
-
-        // GitHub API endpoint to list contents of a directory
-        const API_URL = `https://github.com{USERNAME}/${REPO}/contents/${FOLDER_PATH}?ref=${BRANCH}`;
-
-        async function loadPlaylist() {
-            const container = document.getElementById('audio-container');
-            
-            try {
-                const response = await fetch(API_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`GitHub API error! Status: ${response.status}. Please check your config settings.`);
-                }
-                
-                const items = await response.json(); 
-
-                // Supported audio formats
-                const audioExtensions = /\.(mp3|wav|ogg|m4a|flac)\$/i;
-                
-                // Filter the repository contents to only show audio files
-                const audioFiles = items.filter(item => item.type === 'file' && audioExtensions.test(item.name));
-
-                if (audioFiles.length === 0) {
-                    container.innerHTML = '<p>No supported audio files found in the folder.</p>';
-                    return;
-                }
-
-                container.innerHTML = ''; // Clear loading text
-
-                audioFiles.forEach(file => {
-                    const trackDiv = document.createElement('div');
-                    trackDiv.className = 'track';
-
-                    // Track title (removes file extension for a cleaner look)
-                    const title = document.createElement('p');
-                    title.className = 'track-title';
-                    title.textContent = file.name.replace(audioExtensions, ""); 
-
-                    const audio = document.createElement('audio');
-                    audio.controls = true;
-                    audio.preload = 'metadata';
-
-                    const source = document.createElement('source');
-                    // Use GitHub Pages raw domain or download_url for standard browser streaming
-                    source.src = file.download_url; 
-                    
-                    // Basic MIME-type handling
-                    if (file.name.endsWith('.mp3')) source.type = 'audio/mpeg';
-                    else if (file.name.endsWith('.wav')) source.type = 'audio/wav';
-                    else if (file.name.endsWith('.ogg')) source.type = 'audio/ogg';
-
-                    audio.appendChild(source);
-                    trackDiv.appendChild(title);
-                    trackDiv.appendChild(audio);
-                    container.appendChild(trackDiv);
-                });
-
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
-            }
-        }
-
-        loadPlaylist();
-    </script>
+    <script src="playlist.js"></script>
+    
+    
 </body>
 </html>
