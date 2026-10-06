@@ -3,33 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Pages Audio Playlist</title>
+    <title>Ben's Music Visualizer</title>
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; background-color: #f6f8fa; color: #24292f; }
         h2 { border-bottom: 1px solid #d0d7de; padding-bottom: 8px; }
-        .track { background: #ffffff; padding: 16px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #d0d7de; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .track { background: rgba(255, 255, 255, 0.2); padding: 16px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #d0d7de; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .track-title { margin: 0 0 10px 0; font-size: 15px; font-weight: 600; }
         audio { width: 100%; }
         .error { color: #cf222e; background: #ffebe9; padding: 12px; border-radius: 6px; border: 1px solid #ffc1c0; }
 
         #visualizer {
-            width: 100%;
-            height: 300px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             display: block;
             background: #000;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            z-index: -1;           
+            pointer-events: none;  
+        }
+        #audio-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .main-content {
+            color: #e6eeeedc;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            padding: 0px;
+            padding-left: 20px;
+            box-sizing: border-box;
         }
     </style>
+    <script src="wrapWebGL2.js" defer></script>
     <script src="visualizer.js" defer></script>
     
 </head>
 <body>
     <canvas id="visualizer"></canvas>
-    <h2>Audio Playlist</h2>
-    <div id="audio-container">Loading tracks from repository...</div>
+    <div class="main-content">
+        <h1>Audio Visualizer</h1>
+        <div id="audio-container">Loading tracks from repository...</div>
+    </div>
     <script src="playlist.js"></script>
-    
     
 </body>
 </html>

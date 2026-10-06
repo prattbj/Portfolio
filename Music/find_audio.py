@@ -1,7 +1,7 @@
 import os
 import json
 
-def list_audio_files(folder_name='Music/Files', output_file='audio_files.json'):
+def list_audio_files(folder_name='Music/Files', output_file='Music/audio_files.json'):
     # Common audio extensions
     audio_extensions = ('.mp3', '.wav', '.flac', '.m4a', '.aac', '.ogg', '.wma', '.amr')
     
