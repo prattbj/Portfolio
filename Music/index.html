@@ -43,18 +43,84 @@
             padding-left: 20px;
             box-sizing: border-box;
         }
+        #graph {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        #graph-sidebar {
+            position: fixed;
+            top: 80px; /* Positions it below your h1 title */
+            left: 0;
+            height: calc(100vh - 180px); /* Leave room for header and bottom audio bar */
+            width: 50%; /* Width when fully expanded */
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background over visualizer */
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+        }
+        #graph-content {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            padding: 15px;
+            box-sizing: border-box;
+            transition: opacity 0.2s ease;
+        }
+        #toggle-sidebar {
+            position: absolute;
+            top: 50%;
+            right: -10px; /* Positions the button just outside the right border of the sidebar */
+            transform: translateY(-50%); /* Perfectly centers it vertically */
+            z-index: 2;
+            background: #24292f;
+            color: #fff;
+            border: 1px solid #d0d7de;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap; /* Prevents text from breaking into multiple lines */
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Matches sidebar speed */
+        }
+        #graph-sidebar.collapsed {
+            width: 0px;
+            border-right: none;
+        }
+        #graph-sidebar.collapsed #graph-content {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #graph-sidebar.collapsed #toggle-sidebar {
+            right: -120px; /* Moves it slightly outward so it doesn't hug the screen edge too tightly */
+        }
     </style>
     <script src="wrapWebGL2.js" defer></script>
     <script src="visualizer.js" defer></script>
-    
 </head>
 <body>
+    
+    
     <canvas id="visualizer"></canvas>
     <div class="main-content">
         <h1>Audio Visualizer</h1>
+        <div id="graph-sidebar" class="collapsed">
+            <button id="toggle-sidebar" onclick="toggleSidebar()">>>></button>
+            <div id="graph-content">
+                <div id="graph">
+                    <script type="module" src="graph.js"></script>
+                </div>
+            </div>
+        </div>
+
         <div id="audio-container">Loading tracks from repository...</div>
     </div>
     <script src="playlist.js"></script>
-    
+    <script>    
+        function toggleSidebar() {
+            const sidebar = document.getElementById('graph-sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+    </script> 
 </body>
 </html>
