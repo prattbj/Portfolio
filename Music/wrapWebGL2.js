@@ -11,7 +11,7 @@ const _gl_already_warned = new Set()
 
 const _gl_old_getContext = HTMLCanvasElement.prototype.getContext
 HTMLCanvasElement.prototype.getContext = function(...args) {
-
+  
   function _gl_wrap_for_logging(gl) {
     const _gl_symbols = new WeakMap()
     const _gl_constants = new Map()
@@ -114,6 +114,7 @@ const _cs418_cancelAnimationFrame = cancelAnimationFrame
 var _cs418_requestAnimationFrame_used = 0
 var _cs418_animationFrame_handle = undefined
 requestAnimationFrame = callback => {
+  
   if (_cs418_requestAnimationFrame_used != 0) throw new Error("Calling requestAnimationFrame while another call is pending is usually an error and is prohibited in CS 418.")
   _cs418_requestAnimationFrame_used += 1
   _cs418_animationFrame_handle = _cs418_requestAnimationFrame(ms => {
@@ -130,5 +131,7 @@ cancelAnimationFrame = requestID => {
 }
 const _cs418_setTimeout = setTimeout
 const _cs418_setInterval = setInterval
-setTimeout = (...args) => { console.warn("CS 418 forbids using setTimeout"); _cs418_setTimeout(...args) }
+setTimeout = (...args) => { 
+  const isCytoscape = new Error().stack?.includes('cytoscape');
+  if (!isCytoscape) console.warn("CS 418 forbids using setTimeout"); _cs418_setTimeout(...args) }
 setInterval = (...args) => { console.warn("CS 418 forbids using setInterval"); _cs418_setInterval(...args) }

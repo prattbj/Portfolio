@@ -47,6 +47,7 @@
             width: 100%;
             height: 100%;
             border: 1px solid #ccc;
+            position: relative;
             background: rgba(255, 255, 255, 0.05);
         }
         #graph-sidebar {
@@ -64,24 +65,41 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            padding: 15px;
+            padding: 1px;
+            padding-bottom: 2px;
             box-sizing: border-box;
             transition: opacity 0.2s ease;
         }
         #toggle-sidebar {
             position: absolute;
             top: 50%;
-            right: -10px; /* Positions the button just outside the right border of the sidebar */
-            transform: translateY(-50%); /* Perfectly centers it vertically */
+            right: 0px; /* Snug fit outside the right border since characters are stacked narrow */
+            transform: translateY(-50%) rotate(180deg); /* Facing right by default when expanded */
             z-index: 2;
             background: #24292f;
             color: #fff;
             border: 1px solid #d0d7de;
-            padding: 6px 12px;
-            border-radius: 4px;
+            border-left: none; /* Flushes nicely against the sidebar border */
+            padding: 10px 8px;
+            border-radius: 0 6px 6px 0; /* Rounds only the outer corners like a tab */
             cursor: pointer;
-            white-space: nowrap; /* Prevents text from breaking into multiple lines */
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Matches sidebar speed */
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+            
+            /* Stacks the characters vertically */
+            display: inline-grid;
+            grid-template-columns: 1fr;
+            line-height: 0.8;
+            
+            /* Animates position sliding AND the arrow rotation flip */
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.2s;
+        }
+        #toggle-sidebar:hover {
+            background: #32383f;
         }
         #graph-sidebar.collapsed {
             width: 0px;
@@ -92,11 +110,15 @@
             pointer-events: none;
         }
         #graph-sidebar.collapsed #toggle-sidebar {
-            right: -120px; /* Moves it slightly outward so it doesn't hug the screen edge too tightly */
+            right: -25px; 
+            /* Combined transform: keeps it vertically centered AND flips it 180 degrees to face left */
+            transform: translateY(-50%); 
         }
     </style>
     <script src="wrapWebGL2.js" defer></script>
     <script src="visualizer.js" defer></script>
+    <script type="text/javascript" src="node_modules/litegraph.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.2/cytoscape.min.js"></script> -->
 </head>
 <body>
     
@@ -105,7 +127,11 @@
     <div class="main-content">
         <h1>Audio Visualizer</h1>
         <div id="graph-sidebar" class="collapsed">
-            <button id="toggle-sidebar" onclick="toggleSidebar()">>>></button>
+            <button id="toggle-sidebar" onclick="toggleSidebar()">
+                <span>&gt;</span>
+                <span>&gt;</span>
+                <span>&gt;</span>
+            </button>
             <div id="graph-content">
                 <div id="graph">
                     <script type="module" src="graph.js"></script>
