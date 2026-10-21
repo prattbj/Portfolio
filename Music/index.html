@@ -117,8 +117,7 @@
     </style>
     <script src="wrapWebGL2.js" defer></script>
     <script src="visualizer.js" defer></script>
-    <script type="text/javascript" src="node_modules/litegraph.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.34.2/cytoscape.min.js"></script> -->
+    <!-- <script type="module" src="./dist/graph.js" defer></script> -->
 </head>
 <body>
     
@@ -126,21 +125,29 @@
     <canvas id="visualizer"></canvas>
     <div class="main-content">
         <h1>Audio Visualizer</h1>
-        <div id="graph-sidebar" class="collapsed">
+        <div id="graph-sidebar" class="collapsed" ondragstart="return false;">
             <button id="toggle-sidebar" onclick="toggleSidebar()">
                 <span>&gt;</span>
                 <span>&gt;</span>
                 <span>&gt;</span>
             </button>
             <div id="graph-content">
-                <div id="graph">
-                    <script type="module" src="graph.js"></script>
-                </div>
+                <div id="graph"></div>
             </div>
         </div>
 
         <div id="audio-container">Loading tracks from repository...</div>
     </div>
+    
+    <script type="module" src="./dist/graph.js" defer></script>
+    <script type="module">
+        import { createEditor } from './dist/graph.js';
+
+        const container = document.getElementById('graph');
+
+        // Initialize the editor
+        const editorInstance = await createEditor(container);
+    </script>
     <script src="playlist.js"></script>
     <script>    
         function toggleSidebar() {

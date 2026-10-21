@@ -131,7 +131,5 @@ cancelAnimationFrame = requestID => {
 }
 const _cs418_setTimeout = setTimeout
 const _cs418_setInterval = setInterval
-setTimeout = (...args) => { 
-  const isCytoscape = new Error().stack?.includes('cytoscape');
-  if (!isCytoscape) console.warn("CS 418 forbids using setTimeout"); _cs418_setTimeout(...args) }
+setTimeout = (...args) => { console.warn("CS 418 forbids using setTimeout"); _cs418_setTimeout(...args) }
 setInterval = (...args) => { console.warn("CS 418 forbids using setInterval"); _cs418_setInterval(...args) }

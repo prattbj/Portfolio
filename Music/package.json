@@ -1,16 +1,11 @@
 {
-  "name": "music",
-  "version": "1.0.0",
-  "main": "math.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "cytoscape": "^3.34.4",
-    "litegraph.js": "^0.7.18"
+    "@retejs/lit-plugin": "^2.0.8",
+    "lit": "^3.3.3",
+    "rete": "^2.0.6",
+    "rete-area-plugin": "^2.3.2",
+    "rete-connection-plugin": "^2.0.5",
+    "rete-context-menu-plugin": "^2.0.6",
+    "rete-lit-plugin": "^2.0.3"
   }
 }
